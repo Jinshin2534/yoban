@@ -1,0 +1,15 @@
+{
+  "name": "yoban",
+  "version": "0.1.0",
+  "description": "指定時刻に Claude Code / Codex へコーディングタスクを投げ、PR まで自動で作るローカルツール",
+  "type": "module",
+  "private": true,
+  "bin": { "yoban": "./bin/yoban.js" },
+  "engines": { "node": ">=22.5" },
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "serve": "node --no-warnings bin/yoban.js serve"
+  },
+  "devDependencies": { "vitest": "^3.2.4" }
+}
