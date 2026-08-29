@@ -115,3 +115,8 @@ export async function execOk(command, args, options = {}) {
     return false
   }
 }
+
+/** シェル経由でコマンド文字列を実行する（準備コマンド・検証コマンド用） */
+export function runShell(commandLine, options = {}) {
+  return spawnProcess({ command: '/bin/sh', args: ['-c', commandLine], ...options })
+}
