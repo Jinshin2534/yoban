@@ -1,5 +1,7 @@
 # 夜番 (yoban)
 
+**https://github.com/Jinshin2534/yoban**
+
 時刻を指定して、指定したリポジトリに Claude Code / Codex のコーディングタスクを自動で投げ、
 結果を **Pull Request** として受け取るためのローカルツール。
 寝ているあいだに AI に働いてもらい、朝 PR を見て採否を決める、という使い方を想定している。
