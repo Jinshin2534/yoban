@@ -1,0 +1,177 @@
+:root {
+  --bg: #13151a;
+  --panel: #1b1e26;
+  --panel-2: #22262f;
+  --line: #2c313c;
+  --text: #e6e6e6;
+  --muted: #8b909c;
+  --accent: #8aa9ff;
+  --ok: #7cc48a;
+  --warn: #e0b169;
+  --bad: #ec7a7a;
+  --dim: #6a6f7a;
+  font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Noto Sans JP', sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+/* form label の display:grid が [hidden] に勝ってしまうので、明示的に打ち消す */
+[hidden] { display: none !important; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  font-size: 14px;
+}
+
+h1 { font-size: 20px; margin: 0; letter-spacing: 0.08em; }
+h2 { font-size: 14px; color: var(--muted); font-weight: 600; margin: 0 0 10px; letter-spacing: 0.06em; }
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--line);
+  background: var(--panel);
+}
+.tagline { margin: 4px 0 0; color: var(--muted); font-size: 12px; }
+.top-right { display: flex; align-items: center; gap: 12px; }
+.health { margin: 0; color: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; }
+
+main { padding: 20px 24px 60px; display: grid; gap: 28px; max-width: 1100px; }
+
+button {
+  font: inherit;
+  color: var(--text);
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+button:hover { border-color: var(--accent); }
+button.primary { background: var(--accent); color: #12141a; border-color: transparent; font-weight: 600; }
+button.quiet { background: transparent; border-color: transparent; color: var(--muted); padding: 4px 8px; }
+button.quiet:hover { color: var(--text); }
+
+.tasks { display: grid; gap: 10px; }
+
+.task {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px 16px;
+  padding: 14px 16px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}
+.task.disabled { opacity: 0.55; }
+.task-name { font-weight: 600; }
+.task-meta { color: var(--muted); font-size: 12px; display: flex; flex-wrap: wrap; gap: 12px; }
+.task-actions { display: flex; gap: 6px; align-items: flex-start; }
+.repo { font-family: ui-monospace, SFMono-Regular, monospace; font-size: 11px; color: var(--dim); overflow-wrap: anywhere; }
+
+.runs { display: grid; gap: 6px; }
+.run {
+  display: grid;
+  grid-template-columns: 92px 1fr auto;
+  gap: 12px;
+  align-items: center;
+  padding: 10px 14px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  cursor: pointer;
+}
+.run:hover { border-color: var(--accent); }
+.run-main { min-width: 0; }
+.run-name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.run-sub { color: var(--muted); font-size: 12px; }
+.run-right { display: flex; align-items: center; gap: 10px; font-size: 12px; color: var(--muted); }
+
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  border: 1px solid transparent;
+  text-align: center;
+  white-space: nowrap;
+}
+.badge.success { color: var(--ok); border-color: color-mix(in srgb, var(--ok) 40%, transparent); }
+.badge.no_changes { color: var(--dim); border-color: var(--line); }
+.badge.failed, .badge.timeout { color: var(--bad); border-color: color-mix(in srgb, var(--bad) 40%, transparent); }
+.badge.cancelled { color: var(--dim); border-color: var(--line); }
+.badge.running { color: var(--accent); border-color: color-mix(in srgb, var(--accent) 45%, transparent); animation: pulse 1.6s ease-in-out infinite; }
+.badge.queued { color: var(--warn); border-color: color-mix(in srgb, var(--warn) 40%, transparent); }
+
+@keyframes pulse { 50% { opacity: 0.45; } }
+
+a { color: var(--accent); }
+
+.empty { color: var(--muted); padding: 20px; text-align: center; border: 1px dashed var(--line); border-radius: 10px; }
+
+dialog {
+  background: var(--panel);
+  color: var(--text);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 20px;
+  width: min(720px, 92vw);
+}
+dialog::backdrop { background: rgba(0, 0, 0, 0.6); }
+dialog h2 { color: var(--text); font-size: 16px; }
+
+form label { display: grid; gap: 4px; margin-bottom: 12px; font-size: 12px; color: var(--muted); }
+form input, form select, form textarea {
+  font: inherit;
+  color: var(--text);
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 7px 9px;
+}
+form textarea { resize: vertical; font-family: ui-monospace, SFMono-Regular, monospace; font-size: 13px; }
+form .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+fieldset { border: 1px solid var(--line); border-radius: 8px; margin: 0 0 12px; padding: 12px; }
+legend { color: var(--muted); font-size: 12px; padding: 0 6px; }
+.days { display: flex; gap: 10px; flex-wrap: wrap; }
+.days label, .checks label { display: flex; flex-direction: row; align-items: center; gap: 6px; margin: 0; }
+.checks { display: grid; gap: 6px; margin-top: 8px; }
+details summary { cursor: pointer; color: var(--muted); font-size: 12px; margin-bottom: 10px; }
+menu { display: flex; justify-content: flex-end; gap: 8px; padding: 0; margin: 16px 0 0; }
+.error { color: var(--bad); font-size: 12px; }
+
+#log-dialog { width: min(1000px, 94vw); }
+.log-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 12px; }
+.log-head h2 { margin: 0; }
+.log-head div { display: flex; gap: 8px; }
+.log {
+  background: #0e1014;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 12px;
+  max-height: 62vh;
+  overflow: auto;
+  font-family: ui-monospace, SFMono-Regular, monospace;
+  font-size: 12px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-break: break-word;
+  margin: 0;
+}
+
+@media (max-width: 700px) {
+  .top { flex-direction: column; }
+  main { padding: 16px 14px 60px; }
+  form .row { grid-template-columns: 1fr; }
+  .task { grid-template-columns: 1fr; }
+  .task-actions { flex-wrap: wrap; }
+  .run { grid-template-columns: 76px 1fr; }
+  .run-right { grid-column: 1 / -1; }
+}

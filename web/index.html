@@ -1,0 +1,120 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>夜番</title>
+<link rel="stylesheet" href="/style.css">
+
+<header class="top">
+  <div>
+    <h1>夜番</h1>
+    <p class="tagline">寝ているあいだに AI が働き、朝には PR が待っている</p>
+  </div>
+  <div class="top-right">
+    <p id="health" class="health">接続中…</p>
+    <button id="add-task" class="primary">タスクを追加</button>
+  </div>
+</header>
+
+<main>
+  <section>
+    <h2>タスク</h2>
+    <div id="tasks" class="tasks"></div>
+  </section>
+
+  <section>
+    <h2>実行履歴</h2>
+    <div id="runs" class="runs"></div>
+  </section>
+</main>
+
+<dialog id="task-dialog">
+  <form id="task-form" method="dialog">
+    <h2 id="dialog-title">タスクを追加</h2>
+
+    <label>名前<input name="name" required placeholder="テストを追加する"></label>
+
+    <label>リポジトリ
+      <input name="repoPath" list="repo-list" required placeholder="~/ranzo_project/…">
+      <datalist id="repo-list"></datalist>
+    </label>
+
+    <label>プロンプト
+      <textarea name="prompt" rows="8" required placeholder="src/lib のテストを足してください。既存の書き方に合わせること。"></textarea>
+    </label>
+
+    <div class="row">
+      <label>エージェント
+        <select name="agent">
+          <option value="claude">Claude Code</option>
+          <option value="codex">Codex</option>
+        </select>
+      </label>
+      <label>モデル（任意）<input name="model" placeholder="既定のまま"></label>
+    </div>
+
+    <fieldset>
+      <legend>スケジュール</legend>
+      <div class="row">
+        <label>種類
+          <select name="scheduleType">
+            <option value="daily">毎日</option>
+            <option value="weekly">毎週</option>
+            <option value="interval">N時間ごと</option>
+            <option value="once">1回だけ</option>
+          </select>
+        </label>
+        <label data-when="daily weekly">時刻<input name="time" type="time" value="02:00"></label>
+        <label data-when="interval">間隔（時間）<input name="hours" type="number" min="1" max="720" value="6"></label>
+        <label data-when="once">日時<input name="at" type="datetime-local"></label>
+      </div>
+      <div data-when="weekly" class="days">
+        <label><input type="checkbox" name="days" value="mon">月</label>
+        <label><input type="checkbox" name="days" value="tue">火</label>
+        <label><input type="checkbox" name="days" value="wed">水</label>
+        <label><input type="checkbox" name="days" value="thu">木</label>
+        <label><input type="checkbox" name="days" value="fri">金</label>
+        <label><input type="checkbox" name="days" value="sat">土</label>
+        <label><input type="checkbox" name="days" value="sun">日</label>
+      </div>
+    </fieldset>
+
+    <details>
+      <summary>詳しい設定</summary>
+      <div class="row">
+        <label>base ブランチ<input name="baseBranch" placeholder="（自動検出）"></label>
+        <label>タイムアウト（分）<input name="timeoutMinutes" type="number" min="1" max="720" value="30"></label>
+      </div>
+      <div class="row">
+        <label>準備コマンド<input name="setupCommand" placeholder="pnpm install"></label>
+        <label>検証コマンド<input name="verifyCommand" placeholder="pnpm test"></label>
+      </div>
+      <div class="row">
+        <label>catch-up の猶予（時間）<input name="catchUpGraceHours" type="number" min="1" max="72" value="6"></label>
+      </div>
+      <div class="checks">
+        <label><input type="checkbox" name="catchUp" checked>逃した予定を復帰後に追いかける</label>
+        <label><input type="checkbox" name="draftPr" checked>PR は draft で作る</label>
+        <label><input type="checkbox" name="keepWorktreeOnFailure">失敗したとき worktree を残す</label>
+      </div>
+    </details>
+
+    <p id="form-error" class="error" hidden></p>
+
+    <menu>
+      <button type="button" id="cancel-form">やめる</button>
+      <button type="submit" class="primary" id="submit-form">保存</button>
+    </menu>
+  </form>
+</dialog>
+
+<dialog id="log-dialog">
+  <header class="log-head">
+    <h2 id="log-title">実行ログ</h2>
+    <div>
+      <button type="button" id="cancel-run" hidden>中止する</button>
+      <button type="button" id="close-log">閉じる</button>
+    </div>
+  </header>
+  <pre id="log-body" class="log"></pre>
+</dialog>
+
+<script type="module" src="/app.js"></script>
