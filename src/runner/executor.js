@@ -14,6 +14,12 @@ import { preflight } from './preflight.js'
 import { runShell } from './exec.js'
 import { createLogWriter } from './log.js'
 
+/** ログは人が読むものなので、ローカル時刻で書く */
+function formatLocal(date) {
+  const p = (n) => String(n).padStart(2, '0')
+  return `${date.getFullYear()}-${p(date.getMonth() + 1)}-${p(date.getDate())} ${p(date.getHours())}:${p(date.getMinutes())}:${p(date.getSeconds())}`
+}
+
 const MAX_BRANCH_ATTEMPTS = 5
 const FAILED_STATUSES = ['failed', 'timeout', 'cancelled']
 
@@ -52,7 +58,7 @@ export async function executeRun({ task, run, store, worktreePath, logPath, deps
   let agentOut = { finalMessage: null, tokensIn: null, tokensOut: null }
 
   store.updateRun(run.id, { status: 'running', step, startedAt })
-  log.line(`# 夜番 ${startedAt}`)
+  log.line(`# 夜番 ${formatLocal(new Date())}`)
   log.line(`# タスク: ${task.name}`)
   log.line(`# リポジトリ: ${task.repoPath}`)
   log.line(`# エージェント: ${task.agent}${task.model ? ` (${task.model})` : ''}`)
