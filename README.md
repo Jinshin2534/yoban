@@ -32,6 +32,18 @@ yoban status                  # デーモンの状態
 
 スケジュールは `--daily 02:00` / `--weekly mon,thu@02:00` / `--every 6h` / `--once "2026-08-30 09:00"` の4種類。
 
+## 設定（環境変数）
+
+| 変数 | 既定 | 意味 |
+|---|---|---|
+| `YOBAN_PORT` | `5460` | Web UI と API のポート |
+| `YOBAN_ROOTS` | `~/ranzo_project` | 対象にできるリポジトリの許可ルート（`:` 区切りで複数可） |
+| `YOBAN_STATE_DIR` | `~/Library/Application Support/yoban` | DB・実行ログ・worktree の置き場 |
+| `YOBAN_MAX_CONCURRENT` | `2` | 同時に走らせる本数の上限 |
+
+許可ルートの外にあるリポジトリは、UI からも CLI からも指定できない。
+別の場所のリポジトリを対象にしたいときは `YOBAN_ROOTS` を設定してから `yoban install` し直す。
+
 ## テスト
 
 ```bash
